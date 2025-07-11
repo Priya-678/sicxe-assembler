@@ -79,41 +79,34 @@ gcc pass2.c -o pass2
 ```
 📌 Generates: listing.lst, object.obj, errors.txt, tables.txt
 
-📌 Literal Handling
-Collected in LITTAB during Pass 1
+## 📌 Literal Handling
+- Collected in `LITTAB` during Pass 1  
+- Assigned addresses during `LTORG` or `END`  
+- Processed independently in Pass 2  
 
-Assigned addresses during LTORG or END
+## ❌ Error Handling
+Checks for:  
+- Undefined symbols  
+- Invalid opcodes  
+- Incorrect addressing  
+- Literal errors  
+- Duplicate labels  
 
-Processed independently in Pass 2
+Errors are logged in `errors.txt`  
 
-❌ Error Handling
-Checks for:
-
-Undefined symbols
-
-Invalid opcodes
-
-Incorrect addressing
-
-Literal errors
-
-Duplicate labels
-
-Errors logged in errors.txt
-
-📁 Project Structure
-text
+## 📁 Project Structure
 sicxe-assembler/
-├── pass1.c           # Pass 1 Implementation
-├── pass2.c           # Pass 2 Implementation
-├── optab.h           # Opcode Table
-├── symtab.h          # Symbol Table
-├── littab.h          # Literal Table
-├── input.asm         # Sample Input
-├── listing.lst       # Sample Output
-└── object.obj        # Object File
-📜 Notes
-✔ Literals processed independently
-✔ Supports BASE/NOBASE directives
-✔ Full SIC/XE standard compliance
+├── pass1.c # Pass 1 Implementation
+├── pass2.c # Pass 2 Implementation
+├── optab.h # Opcode Table
+├── symtab.h # Symbol Table
+├── littab.h # Literal Table
+├── input.asm # Sample Input
+├── listing.lst # Sample Output
+└── object.obj # Object File
 
+
+## 📜 Notes
+✔ Literals processed independently  
+✔ Supports `BASE`/`NOBASE` directives  
+✔ Full SIC/XE standard compliance  
