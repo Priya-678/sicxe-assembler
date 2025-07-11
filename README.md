@@ -1,196 +1,115 @@
-\# SIC/XE Assembler – Two Pass Implementation
+SIC/XE Assembler
+A Two-Pass Assembler with Literal Support
+📌 Overview
+This project implements a two-pass SIC/XE assembler in C, supporting all instruction formats (1, 2, 3, and 4) and addressing modes. It features independent literal handling, symbol table generation, and object code generation with proper relocation records.
 
+✨ Features
+✅ Supported Instruction Formats
+Format	Description
+1	1-byte instructions (e.g., FIX, FLOAT)
+2	2-byte instructions (e.g., CLEAR, TIXR)
+3	3-byte instructions (e.g., LDA, STA)
+4	4-byte extended instructions (e.g., +LDA, +STA)
+✅ Addressing Modes
+Direct (LDA 1000)
 
+Indirect (LDA @BUFFER)
 
-This project is an implementation of a \*\*two-pass assembler for SIC/XE architecture\*\*, supporting all standard instruction formats, addressing modes, and a literal-independent mechanism.
+Immediate (LDA #5)
 
+Indexed (LDA 1000,X)
 
 
----
+✅ Machine-Independent Features
+Literals (=C'EOF', =X'05')
 
+Symbol Definitions (LABEL RESW 1)
 
+Base Register Handling (BASE, NOBASE)
 
-\## 🚀 Features
+📂 Input & Output Files
+🔹 Input
+A valid SIC/XE assembly program (.asm file).
 
+🔹 Pass 1 Outputs
+File	Description
+symtab.txt	Generated Symbol Table (labels & addresses)
+littab.txt	Generated Literal Table (literals & addresses)
+intermediate.txt	Intermediate file for Pass 2
+🔹 Pass 2 Outputs
+File	Description
+listing.lst	Assembly listing with addresses & object codes
+object.obj	Object program (H, T, E records)
+errors.txt	Errors (if any) in the source program
+tables.txt	Combined Symbol & Literal Table
+⚙️ Implementation Details
+🔧 Pass 1
+Location Counter (LOCCTR) → Tracks addresses from START.
 
+Symbol Table (SYMTAB) → Stores labels & their addresses.
 
-\- Supports all SIC/XE instruction formats: Format 1, 2, 3, 4
+Literal Table (LITTAB) → Collects literals (=C'EOF', =X'05').
 
-\- All addressing modes: immediate, indirect, indexed, extended
+Intermediate File → Expanded source for Pass 2.
 
-\- \*\*Literals handled independently\*\* of instruction order
+🔧 Pass 2
+Object Code Generation → Converts instructions to machine code.
 
-\- Generates:
+Listing File → Shows source code with addresses & object codes.
 
-&nbsp; - Symbol table
+Object Program (H, T, E records) → Executable output.
 
-&nbsp; - Literal table
+Error Handling → Reports syntax & semantic errors.
 
-&nbsp; - Intermediate file
+🚀 How to Run?
+1️⃣ Compile the Assembler
+sh
+gcc pass1.c -o pass1
+gcc pass2.c -o pass2
+2️⃣ Run Pass 1
+sh
+./pass1 <input.asm>
+📌 Generates: symtab.txt, littab.txt, intermediate.txt.
 
-&nbsp; - Listing file
+3️⃣ Run Pass 2
+sh
+./pass2 <intermediate.txt>
+📌 Generates: listing.lst, object.obj, errors.txt, tables.txt.
 
-&nbsp; - Object code with H, T, M, and E records
+📌 Literal Handling
+Literals (=C'EOF', =X'05') are collected in LITTAB.
 
-&nbsp; - Error file
+Assigned addresses during LTORG or END.
 
+Processed independently in Pass 2.
 
+❌ Error Handling
+The assembler checks for:
 
----
+Undefined symbols
 
+Invalid opcodes
 
+Incorrect addressing modes
 
-\## 📂 Folder Structure
+Literal errors
 
+Duplicate labels
 
+Errors are logged in errors.txt.
 
-```bash
-
-📁 oee/
-
-├── pass1.cpp           # Source code for Pass 1
-
-├── pass2.cpp           # Source code for Pass 2
-
-├── input.asm           # Example assembly input
-
-├── symtab.txt          # Symbol Table output
-
-├── littab.txt          # Literal Table output
-
-├── intermediate.txt    # Intermediate file for Pass 2
-
-├── listing.txt         # Listing file with object code
-
-├── object\_code.txt     # Final object program (H, T, M, E records)
-
-├── errors.txt          # Any errors encountered
-
-├── README.md           # Project documentation
-
-
-
-⚙️ How it Works
-
-🔁 Pass 1 Responsibilities
-
-Builds Symbol Table and Literal Table
-
-
-
-Tracks Location Counter
-
-
-
-Creates Intermediate File
-
-
-
-Defers literal assignment until LTORG or END directive
-
-
-
-Handles literal-independence: literals assigned memory without binding to instructions
-
-
-
-⚙️ Pass 2 Responsibilities
-
-Generates Object Code
-
-
-
-Resolves addresses using SYMTAB \& LITTAB
-
-
-
-Constructs final object program with:
-
-
-
-H (Header)
-
-
-
-T (Text)
-
-
-
-M (Modification)
-
-
-
-E (End)
-
-
-
-Handles Base-relative addressing
-
-
-
-Independent literal processing for modularity
-
-
-
-💡 Sample Input and Output
-
-A sample SIC/XE assembly input (input.asm) is provided. Outputs include all tables and files generated during both passes.
-
-
-
-🛠️ How to Run
-
-Compile the two programs:
-
-
-
-bash
-
-Copy code
-
-g++ pass1.cpp -o pass1
-
-g++ pass2.cpp -o pass2
-
-Run Pass 1:
-
-
-
-bash
-
-Copy code
-
-./pass1 input.asm
-
-Run Pass 2:
-
-
-
-bash
-
-Copy code
-
-./pass2 intermediate.txt
-
-Check generated files:
-
-
-
-symtab.txt
-
-
-
-littab.txt
-
-
-
-object\_code.txt
-
-
-
-listing.txt
-
-
-
-errors.txt
+📁 Project Structure
+text
+sicxe-assembler/  
+├── pass1.c           # Pass 1 Implementation  
+├── pass2.c           # Pass 2 Implementation  
+├── optab.h           # Opcode Table  
+├── symtab.h          # Symbol Table Functions  
+├── littab.h          # Literal Table Functions  
+├── input.asm         # Sample Input  
+└── object.obj        # Sample Object File  
+📜 Notes
+✔ Literals are processed independently (not tied to specific instructions).
+✔ Base-relative addressing is supported via BASE directive.
+✔ Supports all standard SIC/XE features.
 
