@@ -96,14 +96,14 @@ Errors are logged in `errors.txt`
 
 ## 📁 Project Structure
 
-sicxe-assembler/
-├── pass1.c # Pass 1 Implementation
-├── pass2.c # Pass 2 Implementation
-├── optab.h # Opcode Table
-├── symtab.h # Symbol Table
-├── littab.h # Literal Table
-├── input.asm # Sample Input
-└── object.obj # Object File
+📁 sicxe-assembler/
+├── pass1.c         # Pass 1 Implementation
+├── pass2.c         # Pass 2 Implementation
+├── optab.h         # Opcode Table
+├── symtab.h        # Symbol Table Functions
+├── littab.h        # Literal Table Functions
+├── input.asm       # Sample Assembly Source
+└── object.obj      # Output Object File
 
 
 ## 📜 Notes
