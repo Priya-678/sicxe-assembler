@@ -95,6 +95,7 @@ Checks for:
 Errors are logged in `errors.txt`  
 
 ## 📁 Project Structure
+
 sicxe-assembler/
 ├── pass1.c # Pass 1 Implementation
 ├── pass2.c # Pass 2 Implementation
@@ -102,7 +103,6 @@ sicxe-assembler/
 ├── symtab.h # Symbol Table
 ├── littab.h # Literal Table
 ├── input.asm # Sample Input
-├── listing.lst # Sample Output
 └── object.obj # Object File
 
 
